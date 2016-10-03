@@ -20,15 +20,14 @@ angular.module('stocker', ['ionic','nvd3','angular-cache','nvChart', 'ngCordova'
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
    $ionicConfigProvider.backButton.previousTitleText(false);
    $ionicConfigProvider.backButton.text('');
-  $stateProvider
+    $stateProvider
 
     .state('app', {
-    url: '/app',
-    abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'MainCtrl as vm'
-  
-  })
+      url: '/app',
+      abstract: true,
+      templateUrl: 'templates/menu.html',
+      controller: 'MainCtrl as vm'
+    })
 
   
     .state('app.myStocks', {
@@ -42,15 +41,15 @@ angular.module('stocker', ['ionic','nvd3','angular-cache','nvChart', 'ngCordova'
       }
     })
 
-  .state('app.stock', {
-    url: '/:selectedStock',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/stock.html',
-        controller: 'StockCtrl as vm'
+    .state('app.stock', {
+      url: '/:selectedStock',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/stock.html',
+          controller: 'StockCtrl as vm'
+        }
       }
-    }
-  });
+    });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/my-stocks');
+    $urlRouterProvider.otherwise('/app/my-stocks');
 });

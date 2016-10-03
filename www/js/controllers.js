@@ -2,73 +2,50 @@
 angular.module('stocker.controllers', [])
 
   .controller('MainCtrl', function($scope, $ionicModal, $timeout, modalService) {
-
+    
     var vm= this;
     vm.loginData = {};
 
     $scope.modalService = modalService;
 
-    // $ionicModal.fromTemplateUrl('templates/login.html', {
-    //   scope: $scope
-    // }).then(function(modal) {
-    //   $scope.modal = modal;
-    // });
+  })
 
-    vm.closeLogin = function() {
-      $scope.modal.hide();
-    };
-
-    vm.login = function() {
-      $scope.modal.show();
-    };
-
-    vm.doLogin = function() {
+  .controller('MyStocksCtrl', ['$scope', 'myStocksArrayService',
+    function($scope, myStocksArrayService) {
+      var vm= this;
+      vm.myStocksArray = myStocksArrayService;
 
     }
+  ])
 
-  
-})
+  .controller('StockCtrl', 
 
-.controller('MyStocksCtrl', ['$scope', 'myStocksArrayService',
-  function($scope, myStocksArrayService) {
-    var vm= this;
-    console.log(myStocksArrayService);
-    vm.myStocksArray = myStocksArrayService;
-
-  }
-])
-
-.controller('StockCtrl', ['$scope', '$stateParams', 'stockDataService', 'customService', 'dateService', '$window', 'chartDataService', '$ionicPopup', 'notesService' , 'newsService', 'followStockService', '$cordovaInAppBrowser',
+  ['$scope', '$stateParams', 'stockDataService', 'customService', 'dateService', '$window', 'chartDataService', '$ionicPopup', 'notesService' , 'newsService', 'followStockService', '$cordovaInAppBrowser',
 
   function($scope, $stateParams, stockDataService, customService, dateService, $window, chartDataService, $ionicPopup ,notesService, newsService, followStockService, $cordovaInAppBrowser) {
-
+    
     var vm= this;
+    vm.stockNotes = [];
+    $scope.chartView = 4;
     vm.selectedStock = $stateParams.selectedStock;
     vm.todayDate=dateService.currentDate();
     vm.oneYearAgoDate=dateService.oneYearAgoDate();
-    vm.stockNotes = [];
     vm.following = followStockService.checkFollowing(vm.selectedStock);
 
     vm.toggleFollow = function() {
+
       if(vm.following) {
         followStockService.unfollow(vm.selectedStock);
         vm.following = false;
-      } else{
+      } else {
         followStockService.follow(vm.selectedStock);
         vm.following = true;
       }
     }
 
-     $scope.chartView = 4;
-  
      vm.chartViewFunc = function(n) {
        $scope.chartView = n;
      }
-
-    // $scope.$watch("vm.selectedChart",function(newVal,oldVal)
-    // {
-    //   console.log("tyekjl");
-    // });
 
     $scope.$on("$ionicView.afterEnter", function() {
       getPriceData();
@@ -76,33 +53,29 @@ angular.module('stocker.controllers', [])
       getChartData();
       vm.stockNotes = notesService.getNotes(vm.selectedStock);
       getNews();
-      
-    });
+   });
 
     function getPriceData() {
-      var promise = stockDataService.getPriceData(vm.selectedStock);
 
+      var promise = stockDataService.getPriceData(vm.selectedStock);
       promise.then(function(data) {
         vm.stockPriceData=data;
-        console.log("price data",data);
       });
     }
 
     function getDetailsData() {
-    
-       customService._on();
+      customService._on();
       stockDataService.getDetailsData(vm.selectedStock).then(function(data) {
-        vm.stockDetailsData=data;
-        customService._off();
-        console.log("details data",data);
+      vm.stockDetailsData=data;
+      customService._off(); 
       });
     }
-  function getChartData() {
 
+    function getChartData() {
+      
       var promise = chartDataService.getHistoricalData($stateParams.selectedStock, vm.oneYearAgoDate, vm.todayDate);
 
       promise.then(function(data) {
-
         $scope.myData = JSON.parse(data)
           .map(function(series) {
             series.values = series.values.map(function(d) { return {x: d[0], y: d[1] }; });
@@ -188,14 +161,14 @@ angular.module('stocker.controllers', [])
             }
           }
         ]
-    });
+      });
 
     note.then(function(res) {
       vm.stockNotes = notesService.getNotes(vm.selectedStock);
-    });
-  }
+      });
+    }
 
-  vm.openNote = function(index, noteObj) {
+    vm.openNote = function(index, noteObj) {
       // $scope.note = {title:title, description:description, ticker:vm.selectedStock ,date: vm.todayDate};
 
       var note = $ionicPopup.show({
@@ -219,11 +192,11 @@ angular.module('stocker.controllers', [])
             }
           }
         ]
-    });
+      });
 
-    note.then(function(res) {
-      vm.stockNotes = notesService.getNotes(vm.selectedStock);
-    });
+      note.then(function(res) {
+        vm.stockNotes = notesService.getNotes(vm.selectedStock);
+      });
   }
 
   function getNews() {
@@ -234,23 +207,25 @@ angular.module('stocker.controllers', [])
 
     promise.then(function(data) {
       vm.newsStories = data;
-      console.log(vm.newsStories);
     })
   }
 
   vm.openNews= function(link) {
-      var inAppBrowserOptions= {
-        location: 'yes',
-        clearCache: 'yes',
-        toolbar: 'yes'
-      };
+    var inAppBrowserOptions= {
+      location: 'yes',
+      clearCache: 'yes',
+      toolbar: 'yes'
+    };
 
-      $cordovaInAppBrowser.open(link,'_blank', inAppBrowserOptions);
+    $cordovaInAppBrowser.open(link,'_blank', inAppBrowserOptions);
   };
 
 }])
 
-.controller('SearchCtrl', ['$scope', '$state', 'modalService', 'searchService',
+  .controller('SearchCtrl', 
+
+  ['$scope', '$state', 'modalService', 'searchService',
+
   function($scope, $state, modalService, searchService) {
 
     $scope.closeModal = function() {
@@ -275,24 +250,4 @@ angular.module('stocker.controllers', [])
       $state.go('app.stock', {selectedStock: ticker});
     };
   }
-])
-// .controller('LoginSignupCtrl', ['$scope', 'modalService', 'userService',
-//   function($scope, modalService, userService) {
-
-//     $scope.user = {email: '', password: ''};
-
-//     $scope.closeModal = function() {
-//       modalService.closeModal();
-//     };
-
-//     $scope.signup = function(user) {
-//       userService.signup(user);
-//     };
-
-//     $scope.login = function(user) {
-//       userService.login(user);
-//     };
-//   }
-// ])
-
-;
+]);
