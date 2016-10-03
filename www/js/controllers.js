@@ -38,9 +38,9 @@ angular.module('stocker.controllers', [])
   }
 ])
 
-.controller('StockCtrl', ['$scope', '$stateParams', 'stockDataService', 'customService', 'dateService', '$window', 'chartDataService', '$ionicPopup', 'notesService' , 'newsService', 'followStockService',
+.controller('StockCtrl', ['$scope', '$stateParams', 'stockDataService', 'customService', 'dateService', '$window', 'chartDataService', '$ionicPopup', 'notesService' , 'newsService', 'followStockService', '$cordovaInAppBrowser',
 
-  function($scope, $stateParams, stockDataService, customService, dateService, $window, chartDataService, $ionicPopup ,notesService, newsService, followStockService) {
+  function($scope, $stateParams, stockDataService, customService, dateService, $window, chartDataService, $ionicPopup ,notesService, newsService, followStockService, $cordovaInAppBrowser) {
 
     var vm= this;
     vm.selectedStock = $stateParams.selectedStock;
@@ -238,10 +238,15 @@ angular.module('stocker.controllers', [])
     })
   }
 
-  vm.openNews = function(link) {
-    console.log(link);
-  }
+  vm.openNews= function(link) {
+      var inAppBrowserOptions= {
+        location: 'yes',
+        clearCache: 'yes',
+        toolbar: 'yes'
+      };
 
+      $cordovaInAppBrowser.open(link,'_blank', inAppBrowserOptions);
+  };
 
 }])
 
