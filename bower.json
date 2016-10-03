@@ -6,5 +6,8 @@
     "angular-nvd3": "^1.0.9",
     "angular-cache": "^4.6.0",
     "angular-x2js": "~0.2.0"
+  },
+  "dependencies": {
+    "ngCordova": "^0.1.27-alpha"
   }
 }
