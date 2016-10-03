@@ -1,0 +1,137 @@
+<ion-view view-title="{{vm.selectedStock}}">
+
+<ion-nav-buttons side="right">
+	<button class="button icon-left" ng-class="vm.following ? 'ion-ios-checkmark-empty' : 'ion-ios-plus'" ng-bind="vm.following ? 'Following' : 'Follow'" ng-click="vm.toggleFollow()"></button>
+</ion-nav-buttons>
+
+<div class="bar bar-subheader bar-calm">
+	<div class="buttons" side="left">
+	<div class="button button-clear" class="item-text-wrap">
+		<h6 ng-cloak>{{vm.stockDetailsData.Name}}</h6>
+	</div>
+	</div>
+
+	<div class="title button-left button-right">
+		{{vm.stockPriceData.price|shrinkNumber:2}}
+	</div>
+
+	<div class="buttons" side="right">
+	<div class="button button-clear">
+		<h6>{{vm.stockPriceData.chg_percent|number:3}}%</h6>
+	</div>
+		
+	</div>
+</div>
+
+<ion-content class="has-subheader">
+<!-- Select Chart :
+<select ng-model="vm.selectedChart" ng-options="chart.chartType for chart in vm.typesOfCharts" ng-init="vm.selectedChart=vm.typesOfCharts[0]">
+
+
+        <option value="" style="display:none;"></option>
+      </select>
+
+ <img ng-if="vm.selectedChart.chartType==='daily'" ng-src="http://chart.finance.yahoo.com/z?s={{vm.selectedStock}}&t=1d&q=l&l=on&z=m&a=vm"  style="width:101%;"/>
+<img ng-if="vm.selectedChart.chartType==='weekly'" ng-src="http://chart.finance.yahoo.com/z?s={{vm.selectedStock}}&t=5d&q=l&l=on&z=m&a=vm"  style="width:101%;"/>
+<img ng-if="vm.selectedChart.chartType==='threeMonths'" ng-src="http://chart.finance.yahoo.com/z?s={{vm.selectedStock}}&t=3md&q=l&l=on&z=m&a=vm"  style="width:101%;"/>
+<img ng-if="vm.selectedChart.chartType==='yearly'" nv-chart="chartOptions"  style="width:101%;"/>
+<img ng-if="vm.selectedChart.chartType==='max'" ng-src="http://chart.finance.yahoo.com/z?s={{vm.selectedStock}}&t=my&q=l&l=on&z=m&a=vm"  style="width:101%;"/>
+ -->
+
+
+    <div class="button-bar">
+      <a ng-click="vm.chartViewFunc(1)" class="button" ng-class="chartView === 1 ? 'active' : '' ">Day</a>
+      <a ng-click="vm.chartViewFunc(2)" class="button" ng-class="chartView === 2 ? 'active' : '' ">Week</a>
+      <a ng-click="vm.chartViewFunc(3)" class="button" ng-class="chartView === 3 ? 'active' : '' ">3m</a>
+      <a ng-click="vm.chartViewFunc(4)" class="button" ng-class="chartView === 4 ? 'active' : '' ">Year</a>
+      <a ng-click="vm.chartViewFunc(5)" class="button" ng-class="chartView === 5 ? 'active' : '' ">max</a>
+    </div>
+    <img ng-if="chartView === 1" ng-src="http://chart.finance.yahoo.com/z?s={{vm.selectedStock}}&t=1d&q=l&l=on&z=m&a=vm" style="width: 100%;">
+    <img ng-if="chartView === 2" ng-src="http://chart.finance.yahoo.com/z?s={{vm.selectedStock}}&t=5d&q=l&l=on&z=m&a=vm" style="width: 100%;">
+    <img ng-if="chartView === 3" ng-src="http://chart.finance.yahoo.com/z?s={{vm.selectedStock}}&t=3m&q=l&l=on&z=m&a=vm" style=" height:70vh;">
+    <div ng-if="chartView === 4" nv-chart="chartOptions" id="interactiveChart"> </div>
+    <img ng-if="chartView === 5" ng-src="http://chart.finance.yahoo.com/z?s={{vm.selectedStock}}&t=my&q=l&l=on&z=m&a=vm" style="width: 100%;">
+
+
+<div class="card">
+	<div class="item item-divider">
+		Market Data 
+	</div>
+		<div class="row row-center">
+		<div class="col">Currency:</div>
+		<div class="col">{{vm.stockDetailsData.Currency}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Type:</div>
+		<div class="col">{{vm.stockPriceData.type}}</div>
+	</div>
+
+	<div class="row row-center">
+		<div class="col">Day High:</div>
+		<div class="col">{{vm.stockDetailsData.DaysHigh|shrinkNumber:2}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Day Low:</div>
+		<div class="col">{{vm.stockDetailsData.DaysLow|shrinkNumber:2}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Year High:</div>
+		<div class="col">{{vm.stockPriceData.year_high|shrinkNumber:2}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Year Low:</div>
+		<div class="col">{{vm.stockPriceData.year_low|shrinkNumber:2}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Change From Year Low:</div>
+		<div class="col">{{vm.stockDetailsData.ChangeFromYearLow|shrinkNumber:2}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Change From Year High</div>
+		<div class="col">{{vm.stockDetailsData.ChangeFromYearHigh|shrinkNumber:2}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Previous Close:</div>
+		<div class="col">{{vm.stockDetailsData.PreviousClose|shrinkNumber:2}}</div>
+	</div>
+
+	<div class="row row-center">
+		<div class="col">Volume:</div>
+		<div class="col">{{vm.stockPriceData.volume}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Bid:</div>
+		<div class="col">{{vm.stockDetailsData.Bid}}</div>
+	</div>
+	<div class="row row-center">
+		<div class="col">Ask:</div>
+		<div class="col">{{vm.stockDetailsData.Ask}}</div>
+	</div>
+
+
+</div>
+
+	<div class="card" >
+	<div class="item item-divider">Notes <span ng-click="vm.addNote()">add</span></div>
+	<a class="item" ng-repeat="note in vm.stockNotes " ng-click="vm.openNote($index,note)">
+	<h3><span>{{note.title}}</span></h3><span>Added On :{{note.date|date:'d/M/yy'}}</span>
+	<i class="icon ion-ios-arrow-right"></i>
+	</a>
+	</div>
+
+	<div class="card">
+		<div class="item item-divider">News</div>
+		<a  class="item item-icon-right " ng-repeat = "news in vm.newsStories" ng-click = "vm.openNews(news.link)" >
+		<h2>{{news.title}}</h2>
+		<h3>{{news.pubDate}}</h3>
+		<h6>{{news.description}}</h6> 
+		<i class="icon ion-ios-arrow-right"></i>
+		</a>
+	</div>
+
+	
+
+
+	
+</ion-content>
+</ion-view>

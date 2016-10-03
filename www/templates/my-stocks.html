@@ -1,0 +1,18 @@
+<ion-view view-title="My Stocks">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" ng-click="modalService.openModal(1)">
+      <i class="icon icon-small ion-ios-search"></i>
+    </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="stock in vm.myStocksArray track by stock.selectedStock "  ng-href="#/app/{{stock.selectedStock}}">
+        <div class="row-row-centre">
+        	<div class="col">
+        		<h3>{{stock.selectedStock}}</h3>
+        	</div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
