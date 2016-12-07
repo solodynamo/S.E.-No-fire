@@ -6,13 +6,13 @@
 
  Stock Visualizer has these stuff going inside ..
  * Search any stock anytime..
- <img src="http://imgur.com/a/dyB8R.jpg" width="600" alt="Sky Blue"/>
+ <img src="http://i.imgur.com/mSblpMz.png" width="600" alt="Sky Blue"/>
  * Real Time Stock Data
- <img src="http://imgur.com/a/BOGc1.jpg" width="600" alt="Sky Blue"/>
+ <img src="http://i.imgur.com/XWVVomQ.png" width="600" alt="Sky Blue"/>
  * Memo storage Functionality.
-  <img src="http://imgur.com/a/st8GS.jpg" width="600" alt="Sky Blue"/>
+  <img src="http://i.imgur.com/m8T3mQH.png" width="600" alt="Sky Blue"/>
  * Real Time News.
- <img src="http://imgur.com/a/ox8U0.jpg" width="600" alt="Sky Blue"/>
+ <img src="http://i.imgur.com/JsrXJra.png" width="600" alt="Sky Blue"/>
  * In detail Representation of Current State Of stocks through Interactive Charts By NVD3.js and D3.js .
  * many more ...
 
